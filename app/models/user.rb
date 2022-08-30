@@ -6,12 +6,13 @@ class User < ApplicationRecord
          :recoverable, #パスワードをリセット
          :rememberable, #ログイン情報を保存
          :validatable #email のフォーマットなどのバリデーション
-         
+
   has_many :post_images,dependent: :destroy
   #たくさん post_image を持っている.  #「1:Nの1側が削除されたとき、N側を全て削除する」という機能
-  
+  has_many :post_comments,dependent: :destroy
+
   has_one_attached :profile_image
-  
+
   def get_profile_image(width,height)
     unless profile_image.attached?
      file_path = Rails.root.join('app/assets/images/sample-author1.jpg')

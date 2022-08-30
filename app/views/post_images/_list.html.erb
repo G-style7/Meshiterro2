@@ -1,0 +1,18 @@
+<% post_images.each do |post_image| %>  <%#コントローラから渡された@post_images変数内から1つずつ取り出して、ブロック変数のpost_image変数へ格納%>
+<div>
+ <%= link_to post_image_path(post_image.id) do %>
+ <%= image_tag post_image.get_image %>  <%#image_tagを使いpost_imageにActiveStorageで設定したimageを表示. post_image.get_imageの部分はPostImageモデル内に記述したメソッドを呼び出してい %>
+<% end %>
+
+ <!--<p>投稿ユーザー画像:<%= image_tag 'sample-author1.jpg' %></p>-->
+ <p>投稿ユーザー画像:<%= image_tag post_image.user.get_profile_image(100,100) %></p>
+ <!--post_image.userで、投稿画像に紐づいたユーザーの情報(投稿したユーザーの情報)を取得できる-->
+ <!--「.user」の部分でUserモデルを使用しているため、Userモデルに記述しているget_profile_imageメソッドが使えるようになる-->
+ <!--結果、post_image.user.get_profile_imageと記述することで、投稿画像に紐づいたユーザーのプロフィール画像を表示できる-->
+
+ <p>ショップ名:<%= post_image.shop_name %></p>
+ <p>説明:<%= post_image.caption %></p>
+ <p>ユーザーネーム:<%= post_image.user.name %></p> <%#post_image変数のuser_idに関連付けられているuserモデルのnameカラムを表示 nameカラム以外にも、ユーザーモデルにカラムとして定義されている情報であれば取得できる%>
+ <p><%= link_to "#{post_image.post_comments.count}コメント",post_image_path(post_image.id) %> </p>
+</div>
+<% end %>

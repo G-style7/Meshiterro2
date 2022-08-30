@@ -10,8 +10,11 @@ class PostImagesController < ApplicationController
    #(current_user)
    #@post_image(投稿データ)のuser_idを、current_user.id(今ログインしているユーザーの ID)に
    #指定することで投稿データに、今ログイン中のユーザーの ID を持たせることができる。
-   @post_image.save
-   redirect_to post_images_path
+   if @post_image.save
+      redirect_to post_images_path
+   else
+      render :new
+   end
   end
 
   def index
@@ -20,6 +23,7 @@ class PostImagesController < ApplicationController
 
   def show
    @post_image = PostImage.find(params[:id])
+   @post_comment = PostComment.new
   end
   
   def destroy
@@ -33,5 +37,4 @@ class PostImagesController < ApplicationController
   def post_image_params #フォームで入力されたデータが、投稿データとして許可されているパラメータかチェックする
     params.require(:post_image).permit(:shop_name, :image, :caption) #require 必要とする. permit許可する
   end
-
 end

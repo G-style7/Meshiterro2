@@ -3,6 +3,10 @@ class PostImage < ApplicationRecord
   #PostImage モデルには、ActiveStoreage を使って画像を持たせる
   belongs_to:user
   #「ユーザーに属する」
+  has_many :post_comments,dependent: :destroy
+  
+  validates :shop_name, presence: true
+  validates :image, presence: true
   
   def get_image
     unless image.attached?
